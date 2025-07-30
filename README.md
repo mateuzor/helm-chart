@@ -94,3 +94,119 @@ helm uninstall flask-app
 - [flask-poc](https://github.com/mateuzor/flask-poc): aplicação Flask com pipeline Jenkins e testes automatizados.
 
 ---
+
+
+## 📈 Deploy de Prometheus e Grafana no Minikube com Helm
+
+Este guia documenta o processo para instalar **Prometheus** e **Grafana** em um cluster local via **Minikube**, usando o Helm.
+
+---
+
+## ✅ Pré-requisitos
+
+Certifique-se de que você já possui:
+
+- [Minikube](https://minikube.sigs.k8s.io/docs/) instalado e rodando
+- [Helm](https://helm.sh/) instalado
+- [kubectl](https://kubernetes.io/) configurado com o contexto do Minikube
+- Internet ativa para baixar os charts
+
+---
+
+## 🚀 Passo a passo
+
+### 1. Iniciar o Minikube (caso não esteja rodando)
+
+```bash
+minikube start --driver=docker
+```
+
+---
+
+### 2. Criar o namespace `infra`
+
+```bash
+kubectl create namespace infra
+```
+
+---
+
+### 3. Adicionar repositórios do Helm
+
+```bash
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+```
+
+---
+
+### 4. Instalar Prometheus no namespace `infra`
+
+```bash
+helm install prometheus prometheus-community/prometheus \
+  --namespace infra
+```
+
+---
+
+### 5. Instalar Grafana no namespace `infra`
+
+```bash
+helm install grafana grafana/grafana \
+  --namespace infra \
+  --set adminPassword=admin \
+  --set service.type=NodePort
+```
+
+> 📌 A senha do Grafana foi configurada como `admin` para facilitar o acesso local.
+
+---
+
+## 🔍 Verificar os recursos
+
+### Ver pods e serviços
+
+```bash
+kubectl get all -n infra
+```
+
+---
+
+## 🌐 Acessar o Grafana
+
+### Obter a URL do serviço
+
+```bash
+minikube service grafana --namespace infra
+```
+
+Isso abrirá o Grafana no navegador. Use:
+
+- **Usuário:** admin  
+- **Senha:** admin (ou a que você definiu)
+
+---
+
+Pegar senha admin
+
+```bash
+kubectl get secret --namespace infra grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+```
+
+
+## 🧹 Remover tudo (opcional)
+
+```bash
+helm uninstall prometheus -n infra
+helm uninstall grafana -n infra
+kubectl delete namespace infra
+```
+
+---
+
+## 📁 Estrutura usada
+
+Nenhum repositório customizado foi necessário para Prometheus ou Grafana — os charts usados foram os oficiais da comunidade Helm.
+
+---
