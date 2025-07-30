@@ -189,6 +189,9 @@ Isso abrirá o Grafana no navegador. Use:
 
 ---
 
+<img width="1464" height="1056" alt="Screenshot 2025-07-30 at 9 39 43 AM" src="https://github.com/user-attachments/assets/9b6e8f29-5be2-471f-bf70-f4166e2ba679" />
+
+
 Pegar senha admin
 
 ```bash
