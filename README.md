@@ -76,6 +76,7 @@ kubectl get all
 ```bash
 minikube service flask-app
 ```
+<img width="835" height="346" alt="Screenshot 2025-07-30 at 9 22 10 AM" src="https://github.com/user-attachments/assets/fffabb93-2ace-40d7-b81c-51abfd66a997" />
 
 Isso abrirá a URL local da aplicação Flask no navegador (via NodePort).
 
